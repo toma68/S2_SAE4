@@ -14,11 +14,25 @@ def client_comment_add():
     id_vetement=request.form.get('id_article', '')
     comment = request.form.get('comment','')
     note = request.form.get('note','')
-    tuple_insert=(comment,note,id_vetement,session['user_id'])
-    requete_insert = '''INSERT INTO commentaires VALUES(NULL,DATE(NOW()),%s,%s,%s,%s)'''
-    mycursor.execute(requete_insert,tuple_insert)
-    get_db().commit()
-    return redirect('/client/article/details/'+id_vetement)
+
+    verif = '''SELECT * FROM commande 
+    join ligne_commande on ligne_commande.id_commande=commande.id_commande 
+    where id_users = %s 
+    and id_vetement = %s;
+    '''
+    mycursor.execute(verif,(session['user_id'],id_vetement))
+    verif = mycursor.fetchone()
+    print('et voici',verif)
+    if verif ==None:
+        flash('Vous devez commander le produit pour pouvoir commander')
+        return redirect('/client/article/details/' + id_vetement)
+    else:
+
+        tuple_insert=(comment,note,id_vetement,session['user_id'])
+        requete_insert = '''INSERT INTO commentaires VALUES(NULL,DATE(NOW()),%s,%s,%s,%s)'''
+        mycursor.execute(requete_insert,tuple_insert)
+        get_db().commit()
+        return redirect('/client/article/details/'+id_vetement)
     #return redirect(url_for('client_article_details', id=int(article_id)))
 
 @client_commentaire.route('/client/comment/delete/<int:id_comm>&<int:article_id>', methods=['GET'])

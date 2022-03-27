@@ -301,16 +301,28 @@ def client_history_show():
     articles = mycursor.fetchall()
 
 
-    articles_panier = []
-    articles_id = []
-    articles_requete = articles
+    print(articles)
+    articles_requete=articles
+    articles_id = {}
+    articles_id_list = []
+    articles_inter = []
     articles_return = []
     i = 0
     for key in articles_requete:
         if (key['id_vetement'] not in articles_id):
-            articles_id.append(key['id_vetement'])
+            articles_id[key['id_vetement']] = [key['libelle_marque']]
+            i += 1;
+        elif key['libelle_marque'] not in articles_id[key['id_vetement']]:
+            articles_id[key['id_vetement']].append(key['libelle_marque'])
+
+    for key in articles_requete:
+        marque = " x ".join(articles_id[key["id_vetement"]])
+        key['libelle_marque'] = marque
+        articles_inter.append(key)
+
+    for key in articles_inter:
+        if (key['id_vetement'] not in articles_id_list):
+            articles_id_list.append(key['id_vetement'])
             articles_return.append(key)
             i += 1;
-        else:
-            articles_return[i - 1]['libelle_marque'] += ' x ' + key['libelle_marque']
     return render_template('client/boutique/history.html',articles = articles_return)
