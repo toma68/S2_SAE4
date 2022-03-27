@@ -24,7 +24,7 @@ def client_article_show():
     list_param = []
     condition_and = ""
     if "filter_word" in session or "filter_prix_min" in session or "filter_prix_max" in session or "filter_types" in session or "filter_tailles" in session or "filter_sexes" in session:
-        recuperation_article = recuperation_article + " WHERE "
+        recuperation_article = recuperation_article + " AND "
         if "filter_word" in session:
             recuperation_article = recuperation_article + " vetement.libelle_vetement LIKE %s or libelle_marque LIKE %s"
             recherche = "%" + session["filter_word"] + "%"
@@ -64,6 +64,7 @@ def client_article_show():
                 list_param.append(item)
             recuperation_article = recuperation_article + ")"
 
+    print(recuperation_article)
     mycursor.execute(recuperation_article,tuple(list_param))
     articles = mycursor.fetchall()
     articles_panier = []
@@ -116,7 +117,12 @@ def client_article_show():
 @client_article.route('/client/article/details/<int:id>', methods=['GET'])
 def client_article_details(id):
     mycursor = get_db().cursor()
-    tuple_recup = (id)
+    tuple_historique = (id,session['user_id'])
+    historique = '''INSERT INTO consulte VALUES(%s,%s,NOW())'''
+    mycursor.execute(historique,tuple_historique)
+    get_db().commit()
+
+    tuple_recup=(id)
     article='''SELECT * FROM vetement
     join type_vetement on type_vetement.id_type_vetement = vetement.id_type_vetement
     WHERE id_vetement=%s'''

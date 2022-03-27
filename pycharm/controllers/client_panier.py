@@ -239,6 +239,8 @@ def client_wishlist_show():
     mycursor = get_db().cursor()
     requete = '''select * from envie 
     join vetement v on v.id_vetement = envie.id_vetement
+    left join propose p on p.id_vetement= v.id_vetement
+    left join marque m on m.id_marque=p.id_marque
     where id_users = %s'''
     tuple_select=(session['user_id'])
     mycursor.execute(requete,tuple_select)
@@ -284,3 +286,31 @@ def client_wishlist_add(id):
     get_db().commit()
     return redirect('/client/article/show')
 
+
+@client_panier.route('/client/history/show')      # remplace /client
+def client_history_show():
+    mycursor = get_db().cursor()
+    requete = '''select * from consulte 
+    join vetement v on v.id_vetement = consulte.id_vetement
+    left join propose p on p.id_vetement= v.id_vetement
+    left join marque m on m.id_marque=p.id_marque
+    where id_users = %s
+    order by date_historique DESC'''
+    tuple_select=(session['user_id'])
+    mycursor.execute(requete,tuple_select)
+    articles = mycursor.fetchall()
+
+
+    articles_panier = []
+    articles_id = []
+    articles_requete = articles
+    articles_return = []
+    i = 0
+    for key in articles_requete:
+        if (key['id_vetement'] not in articles_id):
+            articles_id.append(key['id_vetement'])
+            articles_return.append(key)
+            i += 1;
+        else:
+            articles_return[i - 1]['libelle_marque'] += ' x ' + key['libelle_marque']
+    return render_template('client/boutique/history.html',articles = articles_return)
