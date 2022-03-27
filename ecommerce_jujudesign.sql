@@ -145,8 +145,8 @@ DROP TABLE IF EXISTS `consulte`;
 CREATE TABLE `consulte` (
   `id_vetement` int NOT NULL,
   `id_users` int NOT NULL,
-  `date_historique` datetime DEFAULT NULL,
-  PRIMARY KEY (`id_vetement`,`id_users`),
+  `date_historique` datetime NOT NULL,
+  PRIMARY KEY (`id_vetement`,`id_users`,`date_historique`),
   KEY `id_users` (`id_users`),
   CONSTRAINT `consulte_ibfk_1` FOREIGN KEY (`id_vetement`) REFERENCES `vetement` (`id_vetement`),
   CONSTRAINT `consulte_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
