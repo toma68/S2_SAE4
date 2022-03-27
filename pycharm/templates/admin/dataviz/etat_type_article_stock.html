@@ -10,7 +10,7 @@
   <div class="container row">
   <div id="message_flashed"></div>
 
-  <h3> Stock par type d'article</h3>
+  <h3> Etat</h3>
 
 
             <div style="max-height: 700px; max-width: 700px">
@@ -22,21 +22,27 @@
                 const myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: [
-                            {% for re in compte %}'{{ re.libelle_vetement }}',{% endfor %}[]
+                        labels:[{% for label in labels %}
+                            '{{ label }}',
+                        {% endfor %}
                         ],
                         datasets: [{
-                            label: 'articles vendus',
-                            data: [
-                                {% for re in compte %}{{ re.somme }},{% endfor %}[]
-                            ],
+                            label: 'Masquer',
+                            data: [{% for value in values %}
+                            {{ value }},
+                        {% endfor %}],
                             backgroundColor: [
                             'rgba(54, 162, 235)',
                             'rgba(255, 99, 132)',
                             'rgba(255, 206, 86)',
                             'rgba(75, 192, 192)',
                             'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)'
+                            'rgba(255, 159, 64)',
+                                "rgba(154, 12, 235)",
+                                "rgba(83, 122, 206)",
+                                "rgba(33, 185, 231)",
+                                "rgba(214, 198, 29)"
+
                             ],
                             borderColor: [
                             'rgba(54, 162, 235)',
@@ -44,7 +50,11 @@
                             'rgba(255, 206, 86)',
                             'rgba(75, 192, 192)',
                             'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)'
+                            'rgba(255, 159, 64)',
+                                "rgba(154, 12, 235)",
+                                "rgba(83, 122, 206)",
+                                "rgba(33, 185, 231)",
+                                "rgba(214, 198, 29)"
                             ],
                             borderWidth: 1
                         }]

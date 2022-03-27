@@ -8,6 +8,10 @@ from connexion_db import get_db
 admin_dataviz_article = Blueprint('admin_dataviz_article', __name__,
                         template_folder='templates')
 
+@admin_dataviz_article.route('/admin/type-article/bilans')
+def bilans():
+    return(render_template('admin/dataviz/panel-etat.html'))
+
 @admin_dataviz_article.route('/admin/type-article/bilan-stock')
 def show_type_article_stock():
     mycursor = get_db().cursor()
@@ -24,14 +28,64 @@ def show_type_article_stock():
                            , labels=labels, values=values, compte=compte)
 
 
-@admin_dataviz_article.route('/admin/article/bilan')
-def show_article_bilan():
+@admin_dataviz_article.route('/admin/type-article/bilan-wishlist')
+def show_dataviz_wishlist():
     mycursor = get_db().cursor()
-
-    types_articles_cout = []
+    requete = '''SELECT libelle_vetement, COUNT(*) from envie
+     join vetement on vetement.id_vetement = envie.id_vetement
+     group by envie.id_vetement;'''
+    mycursor.execute(requete)
+    compte= mycursor.fetchall()
+    print(compte)
     labels = []
     values = []
+    for key in compte:
+        labels.append(key['libelle_vetement'])
+        values.append(key['COUNT(*)'])
+    types_articles_cout = []
     cout_total = 0
-    return render_template('admin/dataviz/etat_article_vente.html',
+    return render_template('admin/dataviz/etat_type_article_stock.html',
                            types_articles_cout=types_articles_cout, cout_total=cout_total
-                           , labels=labels, values=values)
+                           , labels=labels, values=values, compte=compte)
+
+
+@admin_dataviz_article.route('/admin/type-article/bilan-adresse-cp')
+def show_dataviz_adresse_cp():
+    mycursor = get_db().cursor()
+    requete = '''select cp_adresse,count(*) from adresse group by cp_adresse;'''
+    mycursor.execute(requete)
+    compte= mycursor.fetchall()
+    print(compte)
+    labels = []
+    values = []
+    for key in compte:
+        labels.append(key['cp_adresse'])
+        values.append(key['count(*)'])
+    types_articles_cout = []
+
+    cout_total = 0
+    return render_template('admin/dataviz/etat_type_article_stock.html',
+                           types_articles_cout=types_articles_cout, cout_total=cout_total
+                           , labels=labels, values=values, compte=compte)
+
+
+@admin_dataviz_article.route('/admin/type-article/bilan-com')
+def show_dataviz_com():
+    mycursor = get_db().cursor()
+    requete = '''SELECT libelle_vetement, COUNT(*) from commentaires
+     join vetement on vetement.id_vetement = commentaires.id_vetement
+     group by commentaires.id_vetement;'''
+    mycursor.execute(requete)
+    compte= mycursor.fetchall()
+    print(compte)
+    labels = []
+    values = []
+    for key in compte:
+        labels.append(key['libelle_vetement'])
+        values.append(key['COUNT(*)'])
+    types_articles_cout = []
+
+    cout_total = 0
+    return render_template('admin/dataviz/etat_type_article_stock.html',
+                           types_articles_cout=types_articles_cout, cout_total=cout_total
+                           , labels=labels, values=values, compte=compte)
