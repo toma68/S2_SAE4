@@ -30,7 +30,7 @@ CREATE TABLE `adresse` (
   `cp_adresse` varchar(50) DEFAULT NULL,
   `pays_adresse` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id_adresse`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `adresse` (
 
 LOCK TABLES `adresse` WRITE;
 /*!40000 ALTER TABLE `adresse` DISABLE KEYS */;
-INSERT INTO `adresse` VALUES (8,'3 rue Gaston Defferre','','Belfort','90000','hiui');
+INSERT INTO `adresse` VALUES (8,'3 rue Gaston Defferre','','Belfort','90000','France'),(9,'Oui','','oui','85005','oui');
 /*!40000 ALTER TABLE `adresse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `appartient_a` (
 
 LOCK TABLES `appartient_a` WRITE;
 /*!40000 ALTER TABLE `appartient_a` DISABLE KEYS */;
-INSERT INTO `appartient_a` VALUES (1,1),(4,1),(2,2),(3,2);
+INSERT INTO `appartient_a` VALUES (1,1),(4,1),(9,1),(12,1),(14,1),(15,1),(2,2),(3,2),(11,2),(13,2);
 /*!40000 ALTER TABLE `appartient_a` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `commande` (
   CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`id_adresse`) REFERENCES `adresse` (`id_adresse`),
   CONSTRAINT `commande_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`),
   CONSTRAINT `commande_ibfk_3` FOREIGN KEY (`id_etat`) REFERENCES `etat` (`id_etat`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `commande` (
 
 LOCK TABLES `commande` WRITE;
 /*!40000 ALTER TABLE `commande` DISABLE KEYS */;
-INSERT INTO `commande` VALUES (1,'2022-02-21',8,2,4),(2,'2022-02-21',8,2,4),(3,'2022-02-21',8,2,4),(4,'2022-02-21',8,2,4),(5,'2022-02-21',8,2,4),(6,'2022-02-21',8,2,1);
+INSERT INTO `commande` VALUES (1,'2022-02-21',8,2,3),(2,'2022-02-21',8,2,4),(3,'2022-02-21',8,2,4),(4,'2022-02-21',8,2,4),(5,'2022-02-21',8,2,4),(6,'2022-02-21',8,2,1),(7,'2022-02-23',8,2,1),(8,'2022-02-24',9,4,2),(9,'2022-02-24',9,4,1);
 /*!40000 ALTER TABLE `commande` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +122,7 @@ CREATE TABLE `commentaires` (
   KEY `id_users` (`id_users`),
   CONSTRAINT `commentaires_ibfk_1` FOREIGN KEY (`id_vetement`) REFERENCES `vetement` (`id_vetement`),
   CONSTRAINT `commentaires_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,63 @@ CREATE TABLE `commentaires` (
 
 LOCK TABLES `commentaires` WRITE;
 /*!40000 ALTER TABLE `commentaires` DISABLE KEYS */;
+INSERT INTO `commentaires` VALUES (1,'2022-02-24','Bon article, je recommande. Tissu de qualité !',5,14,4),(2,'2022-02-24','Top !',3,13,4),(3,'2022-03-25','Tip top !',4,2,4);
 /*!40000 ALTER TABLE `commentaires` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `consulte`
+--
+
+DROP TABLE IF EXISTS `consulte`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `consulte` (
+  `id_vetement` int NOT NULL,
+  `id_users` int NOT NULL,
+  `date_historique` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_vetement`,`id_users`),
+  KEY `id_users` (`id_users`),
+  CONSTRAINT `consulte_ibfk_1` FOREIGN KEY (`id_vetement`) REFERENCES `vetement` (`id_vetement`),
+  CONSTRAINT `consulte_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `consulte`
+--
+
+LOCK TABLES `consulte` WRITE;
+/*!40000 ALTER TABLE `consulte` DISABLE KEYS */;
+/*!40000 ALTER TABLE `consulte` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `envie`
+--
+
+DROP TABLE IF EXISTS `envie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `envie` (
+  `id_users` int NOT NULL,
+  `id_vetement` int NOT NULL,
+  `date_envie` date DEFAULT NULL,
+  PRIMARY KEY (`id_users`,`id_vetement`),
+  KEY `id_vetement` (`id_vetement`),
+  CONSTRAINT `envie_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`),
+  CONSTRAINT `envie_ibfk_2` FOREIGN KEY (`id_vetement`) REFERENCES `vetement` (`id_vetement`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `envie`
+--
+
+LOCK TABLES `envie` WRITE;
+/*!40000 ALTER TABLE `envie` DISABLE KEYS */;
+INSERT INTO `envie` VALUES (1,5,'2022-02-09'),(3,1,'2022-03-15'),(3,9,'2022-01-20'),(3,12,'2022-01-09'),(4,1,'2022-03-26'),(4,2,'2022-03-27'),(4,3,'2022-01-09'),(4,9,'2022-01-09');
+/*!40000 ALTER TABLE `envie` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -157,7 +213,7 @@ CREATE TABLE `est_associee_a` (
 
 LOCK TABLES `est_associee_a` WRITE;
 /*!40000 ALTER TABLE `est_associee_a` DISABLE KEYS */;
-INSERT INTO `est_associee_a` VALUES (2,8);
+INSERT INTO `est_associee_a` VALUES (2,8),(4,9);
 /*!40000 ALTER TABLE `est_associee_a` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +241,7 @@ CREATE TABLE `est_dispo` (
 
 LOCK TABLES `est_dispo` WRITE;
 /*!40000 ALTER TABLE `est_dispo` DISABLE KEYS */;
-INSERT INTO `est_dispo` VALUES (1,1,12),(1,2,10),(2,1,10),(2,3,5),(3,1,10),(3,3,15),(4,2,10),(4,3,25);
+INSERT INTO `est_dispo` VALUES (1,1,3),(1,2,-4),(2,1,10),(2,3,5),(2,4,15),(3,1,10),(3,3,15),(4,2,10),(4,3,25),(9,3,8),(10,2,4),(10,4,6),(11,2,6),(12,3,3),(12,5,7),(13,1,4),(14,2,8),(14,3,-8),(14,4,8),(15,1,3),(15,3,5),(15,4,5),(15,5,1);
 /*!40000 ALTER TABLE `est_dispo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +268,7 @@ CREATE TABLE `est_en` (
 
 LOCK TABLES `est_en` WRITE;
 /*!40000 ALTER TABLE `est_en` DISABLE KEYS */;
-INSERT INTO `est_en` VALUES (1,1),(2,1),(3,2),(4,2);
+INSERT INTO `est_en` VALUES (1,1),(2,1),(4,1),(9,1),(10,1),(15,1),(3,2),(13,2),(11,3),(12,3),(12,4),(14,4);
 /*!40000 ALTER TABLE `est_en` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,6 +294,87 @@ LOCK TABLES `etat` WRITE;
 /*!40000 ALTER TABLE `etat` DISABLE KEYS */;
 INSERT INTO `etat` VALUES (1,'En attente'),(2,'En cours de traitement'),(3,'Expediée'),(4,'Annulée');
 /*!40000 ALTER TABLE `etat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `facture`
+--
+
+DROP TABLE IF EXISTS `facture`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `facture` (
+  `id_facture` int NOT NULL AUTO_INCREMENT,
+  `montant_facture` decimal(15,2) DEFAULT NULL,
+  `desc_facture` varchar(500) DEFAULT NULL,
+  `id_commande` int NOT NULL,
+  `Id_adresse` int NOT NULL,
+  PRIMARY KEY (`id_facture`),
+  KEY `id_commande` (`id_commande`),
+  KEY `Id_adresse` (`Id_adresse`),
+  CONSTRAINT `facture_ibfk_1` FOREIGN KEY (`id_commande`) REFERENCES `commande` (`id_commande`),
+  CONSTRAINT `facture_ibfk_2` FOREIGN KEY (`Id_adresse`) REFERENCES `adresse` (`Id_adresse`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `facture`
+--
+
+LOCK TABLES `facture` WRITE;
+/*!40000 ALTER TABLE `facture` DISABLE KEYS */;
+/*!40000 ALTER TABLE `facture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fournisseur`
+--
+
+DROP TABLE IF EXISTS `fournisseur`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fournisseur` (
+  `id_fournisseur` int NOT NULL AUTO_INCREMENT,
+  `libelle_fournisseur` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id_fournisseur`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fournisseur`
+--
+
+LOCK TABLES `fournisseur` WRITE;
+/*!40000 ALTER TABLE `fournisseur` DISABLE KEYS */;
+INSERT INTO `fournisseur` VALUES (1,'France Textile'),(2,'QST GMBH'),(3,'Indiamart');
+/*!40000 ALTER TABLE `fournisseur` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fournit`
+--
+
+DROP TABLE IF EXISTS `fournit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fournit` (
+  `id_vetement` int NOT NULL,
+  `id_fournisseur` int NOT NULL,
+  PRIMARY KEY (`id_vetement`,`id_fournisseur`),
+  KEY `id_fournisseur` (`id_fournisseur`),
+  CONSTRAINT `fournit_ibfk_1` FOREIGN KEY (`id_vetement`) REFERENCES `vetement` (`id_vetement`),
+  CONSTRAINT `fournit_ibfk_2` FOREIGN KEY (`id_fournisseur`) REFERENCES `fournisseur` (`id_fournisseur`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fournit`
+--
+
+LOCK TABLES `fournit` WRITE;
+/*!40000 ALTER TABLE `fournit` DISABLE KEYS */;
+INSERT INTO `fournit` VALUES (5,1),(4,2),(1,3);
+/*!40000 ALTER TABLE `fournit` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -268,8 +405,59 @@ CREATE TABLE `ligne_commande` (
 
 LOCK TABLES `ligne_commande` WRITE;
 /*!40000 ALTER TABLE `ligne_commande` DISABLE KEYS */;
-INSERT INTO `ligne_commande` VALUES (1,3,1,25.99,3);
+INSERT INTO `ligne_commande` VALUES (1,3,1,25.99,3),(1,8,1,25.99,2),(1,9,2,25.99,10),(14,9,3,47.99,4),(15,8,5,59.99,2);
 /*!40000 ALTER TABLE `ligne_commande` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `livre`
+--
+
+DROP TABLE IF EXISTS `livre`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `livre` (
+  `Id_adresse` int NOT NULL,
+  `id_livreur` int NOT NULL,
+  `num_suivi` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Id_adresse`,`id_livreur`),
+  KEY `id_livreur` (`id_livreur`),
+  CONSTRAINT `livre_ibfk_1` FOREIGN KEY (`Id_adresse`) REFERENCES `adresse` (`Id_adresse`),
+  CONSTRAINT `livre_ibfk_2` FOREIGN KEY (`id_livreur`) REFERENCES `livreur` (`id_livreur`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `livre`
+--
+
+LOCK TABLES `livre` WRITE;
+/*!40000 ALTER TABLE `livre` DISABLE KEYS */;
+/*!40000 ALTER TABLE `livre` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `livreur`
+--
+
+DROP TABLE IF EXISTS `livreur`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `livreur` (
+  `id_livreur` int NOT NULL AUTO_INCREMENT,
+  `libelle_livreur` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_livreur`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `livreur`
+--
+
+LOCK TABLES `livreur` WRITE;
+/*!40000 ALTER TABLE `livreur` DISABLE KEYS */;
+INSERT INTO `livreur` VALUES (1,'UPS'),(2,'DHL'),(3,'Colissimo');
+/*!40000 ALTER TABLE `livreur` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -283,7 +471,7 @@ CREATE TABLE `marque` (
   `id_marque` int NOT NULL AUTO_INCREMENT,
   `libelle_marque` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_marque`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +480,7 @@ CREATE TABLE `marque` (
 
 LOCK TABLES `marque` WRITE;
 /*!40000 ALTER TABLE `marque` DISABLE KEYS */;
-INSERT INTO `marque` VALUES (1,'Nike'),(2,'Addidas'),(3,'Bershka'),(4,'Calvin Klein');
+INSERT INTO `marque` VALUES (1,'Nike'),(2,'Adidas'),(3,'Bershka'),(4,'Calvin Klein'),(5,'Carhartt'),(6,'Only & Sons'),(7,'Stradivarius'),(8,'The North Face'),(9,'Ralph Lauren'),(10,'Levi\'s'),(11,'Jordan'),(12,'Pull & Bear');
 /*!40000 ALTER TABLE `marque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,7 +495,7 @@ CREATE TABLE `matiere` (
   `id_matiere` int NOT NULL AUTO_INCREMENT,
   `libelle_matiere` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_matiere`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,7 +504,7 @@ CREATE TABLE `matiere` (
 
 LOCK TABLES `matiere` WRITE;
 /*!40000 ALTER TABLE `matiere` DISABLE KEYS */;
-INSERT INTO `matiere` VALUES (1,'Coton'),(2,'Synthetique'),(3,'Polaire');
+INSERT INTO `matiere` VALUES (1,'Coton'),(2,'Synthetique'),(3,'Polaire'),(4,'Jean');
 /*!40000 ALTER TABLE `matiere` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,8 +533,34 @@ CREATE TABLE `panier` (
 
 LOCK TABLES `panier` WRITE;
 /*!40000 ALTER TABLE `panier` DISABLE KEYS */;
-INSERT INTO `panier` VALUES (1,2,1,'1'),(2,2,1,'12');
+INSERT INTO `panier` VALUES (13,4,1,'4');
 /*!40000 ALTER TABLE `panier` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `promotion`
+--
+
+DROP TABLE IF EXISTS `promotion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `promotion` (
+  `id_promo` int NOT NULL AUTO_INCREMENT,
+  `valeur_promo` int DEFAULT NULL,
+  `code_promo` varchar(50) DEFAULT NULL,
+  `date_fin_promo` date DEFAULT NULL,
+  PRIMARY KEY (`id_promo`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `promotion`
+--
+
+LOCK TABLES `promotion` WRITE;
+/*!40000 ALTER TABLE `promotion` DISABLE KEYS */;
+INSERT INTO `promotion` VALUES (1,40,'IFSIO5151sdsdF5','2022-10-05'),(2,15,'DSKS56465sqdSD4','2022-08-16');
+/*!40000 ALTER TABLE `promotion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -372,7 +586,7 @@ CREATE TABLE `propose` (
 
 LOCK TABLES `propose` WRITE;
 /*!40000 ALTER TABLE `propose` DISABLE KEYS */;
-INSERT INTO `propose` VALUES (1,1),(3,1),(4,1),(3,2),(4,2),(3,3),(2,4),(3,4),(5,4);
+INSERT INTO `propose` VALUES (1,1),(4,1),(15,1),(3,3),(2,4),(5,4),(10,4),(11,4),(9,5),(13,7),(12,10),(14,10),(15,11);
 /*!40000 ALTER TABLE `propose` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,7 +700,7 @@ CREATE TABLE `type_vetement` (
   PRIMARY KEY (`id_type_vetement`),
   KEY `id_saison` (`id_saison`),
   CONSTRAINT `type_vetement_ibfk_1` FOREIGN KEY (`id_saison`) REFERENCES `saison` (`id_saison`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,7 +709,7 @@ CREATE TABLE `type_vetement` (
 
 LOCK TABLES `type_vetement` WRITE;
 /*!40000 ALTER TABLE `type_vetement` DISABLE KEYS */;
-INSERT INTO `type_vetement` VALUES (1,'Tshirt',1),(2,'Veste',4),(3,'Pull',5),(4,'Sweat',5),(5,'Jean',5),(6,'Pantalon',6);
+INSERT INTO `type_vetement` VALUES (1,'Tshirt',1),(2,'Veste',4),(3,'Pull',5),(4,'Sweat',5),(5,'Jean',5),(6,'Pantalon',6),(7,'Bonnet',4),(8,'Sous-vêtements',6),(9,'Gants',4);
 /*!40000 ALTER TABLE `type_vetement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,7 +730,7 @@ CREATE TABLE `users` (
   `password_users` varchar(250) DEFAULT NULL,
   `role_users` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -525,7 +739,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','Tout puissant','Administrateur','0123456789','admin@admin.fr','sha256$EMOEOjUZlW34l57I$4577c634103087b498cf2c3997b380d515e9b84d48b5e33e020cd64680cc9434','ROLE_admin'),(2,'pmaffiol','Maffiolini','Paul','0123456789','paulmaffiolini04@gmail.com','sha256$cRojH2VeVJn2jTsp$5900fbda1881537d230ae51134acde3f7541e07723784e8e5e21a9c23d6a8065','ROLE_client');
+INSERT INTO `users` VALUES (1,'admin','Tout puissant','Administrateur','0123456789','admin@admin.fr','sha256$EMOEOjUZlW34l57I$4577c634103087b498cf2c3997b380d515e9b84d48b5e33e020cd64680cc9434','ROLE_admin'),(2,'pmaffiol','Maffiolini','Paul','0123456789','paulmaffiolini04@gmail.com','sha256$cRojH2VeVJn2jTsp$5900fbda1881537d230ae51134acde3f7541e07723784e8e5e21a9c23d6a8065','ROLE_client'),(3,'iencli','ien','cli','0102030405','clienttest@gmail.com','sha256$3cFyhHHnE9MUcR1O$90663c17257fe588eaab77a216437b648401c1c8247d426b4344efb6dd948b8d','ROLE_client'),(4,'client','client','client','0102030405','client@z.com','sha256$owhyuMHBzz7lAJub$e94756356fbe74594dd5778920eabb8c83dc6d02f06d5387e82099534b728fc7','ROLE_client');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,7 +761,7 @@ CREATE TABLE `vetement` (
   KEY `id_type_vetement` (`id_type_vetement`),
   CONSTRAINT `vetement_ibfk_1` FOREIGN KEY (`id_sexe`) REFERENCES `sexe` (`id_sexe`),
   CONSTRAINT `vetement_ibfk_2` FOREIGN KEY (`id_type_vetement`) REFERENCES `type_vetement` (`id_type_vetement`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -556,7 +770,7 @@ CREATE TABLE `vetement` (
 
 LOCK TABLES `vetement` WRITE;
 /*!40000 ALTER TABLE `vetement` DISABLE KEYS */;
-INSERT INTO `vetement` VALUES (1,25.99,'Tshirt Brun',1,1),(2,20.99,'Tshirt Gris',2,1),(3,27.99,'Pantalon large',2,6),(4,45.99,'Sweat Bleu',3,4),(5,23.00,'Tshirt ours',2,1);
+INSERT INTO `vetement` VALUES (1,25.99,'Tshirt Brun',1,1),(2,20.99,'Tshirt Gris',2,1),(3,27.99,'Pantalon large',2,6),(4,45.99,'Sweat Bleu',2,4),(5,23.00,'Tshirt ours',2,1),(9,25.00,'Bonnet',3,7),(10,37.00,'Boxer',1,2),(11,24.00,'Gants Roses',2,9),(12,89.99,'Veste Polaire',3,2),(13,75.45,'Manteau Gris',2,2),(14,47.99,'Jean Bleu délavé',1,5),(15,59.99,'Sweat à capuche vert',1,4);
 /*!40000 ALTER TABLE `vetement` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -569,4 +783,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-23 14:03:12
+-- Dump completed on 2022-03-27 18:02:22
+

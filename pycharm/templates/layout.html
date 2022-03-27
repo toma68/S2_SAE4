@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--  
+    Document Title
+    =============================================
+    -->
+<title>
+        {% block title %}
+
+            Juju Design - You can buy it !
+
+        {% endblock %}
+  </title>
+    {% block stylesheets %}
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicons/icon.jpg') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="{{ url_for('static', filename='assets/lib/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/bootstrap/dist/css/bootstrap-grid.css') }}" rel="stylesheet">
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Volkhov:400i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/animate.css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/et-line-font/et-line-font.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/flexslider/flexslider.css" rel="stylesheet') }}">
+    <link href="{{ url_for('static', filename='assets/lib/owl.carousel/dist/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/lib/simple-text-rotator/simpletextrotator.css') }}" rel="stylesheet">
+    <!-- Main stylesheet and color file-->
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+    <link id="color-scheme" href="{{ url_for('static', filename='assets/css/colors/default.css') }}" rel="stylesheet">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+    {% endblock %}
+
+  </head>
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+    <main>
+      <div class="page-loader">
+        <div class="loader">Loading...</div>
+      </div>
+        
+        
+       {% if session['role'] == 'ROLE_admin'  %}
+           {% include('admin/_nav_admin.html') %}
+       {% elif session['role'] == 'ROLE_client' %}
+           {% include('client/_nav_client.html') %}
+       {% else %}
+           {% include('_nav_unauth.html') %}
+       {% endif %}
+
+
+
+
+
+{% block body %}
+      <section class="home-section home-fade home-full-height" id="home">
+        <div class="hero-slider">
+          <ul class="slides">
+            <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url(&quot;static/assets/images/thumbnail-9.jpeg&quot;);">
+              <div class="titan-caption">
+                <div class="caption-content">
+                  <div class="font-alt mb-30 titan-title-size-1">Juju Design - You can buy it</div>
+                  <div class="font-alt mb-30 titan-title-size-4">Achetez vos vêtements à prix minis !</div>
+                  <div class="font-alt mb-40 titan-title-size-1">Votre seule boutique fashion</div><a class="section-scroll btn btn-border-w btn-round" href="#latest">Voir plus</a>
+                </div>
+              </div>
+            </li>
+            <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url(&quot;static/assets/images/thumbnail-8.jpg&quot;);">
+              <div class="titan-caption">
+                <div class="caption-content">
+                  <div class="font-alt mb-30 titan-title-size-1"> Juju Design - You can buy it</div>
+                  <div class="font-alt mb-40 titan-title-size-4">Produits exclusifs</div><a class="section-scroll btn btn-border-w btn-round" href="#latest">Voir plus</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <div class="main">
+
+<!-- module produits         -->
+        <section class="module-small">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <h2 class="module-title font-alt">Dernières sorties</h2>
+              </div>
+            </div>
+                  <div class="row multi-columns-row">
+                      {% for article in articles %}
+                      <div class="col-sm-6 col-md-3 col-lg-3">
+                          <div class="shop-item">
+                              <a href="/{% if session['role'] == 'ROLE_admin'  %}admin{% else %}client{% endif %}/article/details/{{ article.id_vetement }}">
+                              <div class="shop-item-image"><img src="static/assets/images/produit{{ article.id_vetement }}.png" alt="{{ article.libelle_vetement}}"/>
+                              </div>
+                              <h4 class="shop-item-title font-alt">{{ article.libelle_vetement }} {{ article.libelle_marque }}</h4>
+                              {{article.prix_vetement}} €
+                                  </a>
+                          </div>
+                      </div>
+                      {% endfor %}
+
+
+                  
+
+                      <div class="row mt-30">
+                          <div class="col-sm-12 align-center"><a class="btn btn-b btn-round" href="/client/article/show">Voir tous les produits</a></div>
+                      </div>
+                  </div>
+          </div>
+        </section>
+<!-- module video         -->
+        <section class="module module-video bg-dark-30" data-background="">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <h2 class="module-title font-alt mb-0">Soyez inspirés. Allez au-delà des tendances.</h2>
+              </div>
+            </div>
+          </div>
+          <div class="video-player" data-property="{videoURL:'https://www.youtube.com/watch?v=l2KgcfBcxOQ&ab_channel=LeBazarDesTendances', containment:'.module-video', startAt:0, mute:true, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:25}"></div>
+        </section>
+
+<!-- marques présentes dans boutique         -->
+
+        <hr class="divider-w">
+        <section class="module-small">
+          <div class="container">
+            <div class="row client">
+              <div class="owl-carousel text-center" data-items="6" data-pagination="false" data-navigation="false">
+                <div class="owl-item">
+                  <div class="col-sm-12" style="text-align: center;">
+                    <div class="client-logo-ck"><img src="static/assets/images/ck.png" alt="Client Logo" width="35%" height="35%"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo-carhartt"><img src="static/assets/images/carhartt.png" width="35%" height="35%" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo"><img src="static/assets/images/ralphlauren.svg" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo-jordan"><img src="static/assets/images/jordan.png" alt="Client Logo" width="560" height="560"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo-nike"><img src="static/assets/images/nike.png" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo"><img src="static/assets/images/stradivarius.png" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo"><img src="static/assets/images/pull-bear.svg" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo"><img src="static/assets/images/bershka.png" alt="Client Logo"/></div>
+                  </div>
+                </div>
+                <div class="owl-item" style="text-align: center;">
+                  <div class="col-sm-12">
+                    <div class="client-logo-levis"><img src="static/assets/images/levis.png" width="1500" height="560" alt="Client Logo"/></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+<!-- footer all right reserved         -->
+        <hr class="divider-d">
+        <footer class="footer bg-dark">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6">
+                <p class="copyright font-alt">&copy; 2022&nbsp;<a href="https://fr.wikipedia.org/wiki/Les_Beaux_Gosses">Thibaut Lebreuil, Paul Maffiolini, Thomas Becher, Valentin Munch</a>, All Rights Reserved</p>
+              </div>
+
+            </div>
+          </div>
+        </footer>
+      </div>
+      <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+    </main>
+
+    {% endblock %}
+
+
+    <!--  
+    JavaScripts
+    =============================================
+    -->
+<!--  ICI -->
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>document.getElementById("message_flashed").innerHTML = "<div class=\'alert alert-danger\'>{{ messages[0] }}</div>";</script>
+        {% endif %}
+
+    {% endwith %}
+    <script src="{{ url_for('static', filename='assets/lib/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/wow/dist/wow.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/isotope/dist/isotope.pkgd.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/imagesloaded/imagesloaded.pkgd.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/flexslider/jquery.flexslider.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/smoothscroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/magnific-popup/dist/jquery.magnific-popup.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Nos articles
+{% endblock %}
+
+{% block body %}
+
+<hr class="divider-w">
+<section class="module-small">
+<div id="message_flashed"></div>
+  <div class="container row">
+    <h3 class="text-center">Ma liste de souhaits</h3>
+
+    <div class="col-lg-2 col-md-0"></div>
+    <div class="col-sm-12 col-lg-8 row multi-columns-row">
+      {% for article in articles %}
+          <div class="col-md-3">
+              <div class="shop-item">
+                  <div class="shop-item-image">
+                          <img src="/static/assets/images/produit{{ article.id_vetement }}.png" alt="{{ article.libelle_vetement }}">
+                      <div class="shop-item-detail">
+                          <a href="/client/wishlist/delete/{{ article.id_vetement }}&1"><button class="btn btn-danger">Supprimer</button></a>
+                      </div>
+                  </div>
+                  <h4 class="shop-item-title font-alt">
+                      <a href="/client/article/details/{{ article.id_vetement }}">{{ article.libelle_vetement }} {{ article.libelle_marque   }} </a>
+                  </h4>
+                  <p>{{article.prix_vetement}} €</p>
+              </div>
+          </div>
+          {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+        <script>
+    function changement_taille(id){
+        select= document.getElementById('taille_achat'+id);
+        quantite = document.getElementById('number'+id);
+        console.log(select)
+        quantite.max = select.options[select.selectedIndex].dataset.stock;
+    }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+
+<hr class="divider-w">
+<section class="module-small">
+  <div class="container row">
+  <div id="message_flashed"></div>
+
+  <h3> Stock par type d'article</h3>
+
+
+            <div style="max-height: 700px; max-width: 700px">
+
+            <canvas id="myChart"></canvas>
+
+            <script>
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            {% for re in compte %}'{{ re.libelle_vetement }}',{% endfor %}[]
+                        ],
+                        datasets: [{
+                            label: 'articles vendus',
+                            data: [
+                                {% for re in compte %}{{ re.somme }},{% endfor %}[]
+                            ],
+                            backgroundColor: [
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 206, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)'
+                            ],
+                            borderColor: [
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 206, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                </script>
+            </div>
+
+
+  </div>
+</section>
+
+{% endblock %}
