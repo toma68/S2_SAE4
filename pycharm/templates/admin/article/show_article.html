@@ -57,7 +57,7 @@
         <h5 class="text-center mt-0"> Veuillez essayer de <a href="/admin/filtre/suppr">supprimer le filtre</a></h5>
     {% endif %} 
       {% for article in articles %}
-          <div class="col-md-3 {% if article.stock_global == 0 %}bg-danger {% elif article.stock_global <=10  %}bg-warning{% endif %} ">
+          <div class="col-md-3 {% if article.stock_global == None %} bg-danger {% elif article.stock_global <= 10  %}bg-warning{% endif %} ">
               <div class="shop-item">
                   <div class="shop-item-image">
                           <img src="/static/assets/images/produit{{ article.id_vetement }}.png" alt="{{ article.libelle_vetement }}">
