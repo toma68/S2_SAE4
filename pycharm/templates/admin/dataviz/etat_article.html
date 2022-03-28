@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Product
+{% endblock %}
+
+{% block body %}
+<div class="main">
+    <div id="message_flashed"></div>
+        <section class="module">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 mb-sm-40 mx-auto">
+                  <img src="/static/assets/images/produit{{ article.id_vetement }}.png" alt="{{ article.libelle_vetement }}">
+                      <h2 >{{ article.libelle_vetement  }}</h2>
+
+              </div>
+              <div class="col-lg-6">
+                  <h3>Cet article est présent dans <strong class="text-danger">{{ commande.cnt }}</strong> commandes pour un total de <strong class="text-danger">{{ commande.sum }}</strong> exemplaires.</h3>
+                  <h3>Il est dans <strong class="text-danger"> {{ compte.nombre }} </strong> wishlist.</h3>
+                  <h3>La page de "<strong class="text-danger">{{ article.libelle_vetement  }}</strong>" a été visitée <strong class="text-danger">{{ history.nb }}</strong> fois.</h3>
+                   <h3>Visites journalières :</h3>
+                  <div class="col-lg-6" style="height: 700px; width: 700px">
+
+            <canvas id="myChart"></canvas>
+
+            <script>
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels:[{% for label in labels %}
+                            '{{ label }}',
+                        {% endfor %}
+                        ],
+                        datasets: [{
+                            label: '{{ article.libelle_vetement  }}',
+                            data: [{% for value in values %}
+                            {{ value }},
+                        {% endfor %}],
+                            borderColor: 'rgb(255,0,0)',
+                            cubicInterpolationMode: 'monotone',
+                            tension: 0.4,
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                </script>
+            </div>
+              </div>
+            </div>
+
+            </div>
+        </section>
+        <hr class="divider-w">
+          </div>
+        </section>
+</div>
+
+
+
+{% endblock %}

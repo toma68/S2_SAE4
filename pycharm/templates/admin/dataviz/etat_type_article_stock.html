@@ -10,10 +10,10 @@
   <div class="container row">
   <div id="message_flashed"></div>
 
-  <h3> Etat</h3>
+  <h3> Etat {{ nameEtat }}</h3>
 
-
-            <div style="max-height: 700px; max-width: 700px">
+<div class="row">
+            <div class="col-lg-6" style="max-height: 700px; max-width: 700px">
 
             <canvas id="myChart"></canvas>
 
@@ -62,6 +62,104 @@
                 });
                 </script>
             </div>
+{% if nameEtat %}
+<div class="col-lg-6">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nom du produit</th>
+                      <th scope="col">Nombre de clic</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for histo in history %}
+
+                          <tr>
+                              <th scope="row">{{ histo.id_vetement }}</th>
+                              <td><a href="/admin/type-article/bilan-vetement/{{ histo.id_vetement }}">{{ histo.libelle_vetement }}</a></td>
+                              <td>{{ histo.nb }}</td>
+                          </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+
+ <canvas id="canvas" width="697" height="348" style="display: block; width: 697px; height: 348px;"></canvas>
+                <script>
+
+
+
+		var config = {
+            type: 'line',
+            data: {
+                labels: [{% for label in labels2 %}
+                            '{{ label }}',
+                        {% endfor %}
+                        ],
+                datasets: [{% for value in values2 %}
+                        {
+                    label: "{{ value.id }}",
+                    data: {{ value.val }},
+                    borderColor: 'rgb({{ value.col }})',
+					backgroundColor: 'rgba({{ value.col }})',
+                    fill: false,
+					cubicInterpolationMode: 'monotone'
+                },
+                {% endfor %}
+                ]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Chart.js Line Chart - Cubic interpolation mode'
+                },
+                tooltips: {
+                    mode: 'index'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            suggestedMin: -10,
+                            suggestedMax: 200,
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+
+        document.getElementById('randomizeData').addEventListener('click', function() {
+			for (var i = 0, len = datapoints.length; i < len; ++i) {
+				datapoints[i] = Math.random() < 0.05 ? NaN : randomScalingFactor();
+			}
+            window.myLine.update();
+        });
+
+    </script>
+            </div>
+
+{% endif %}
+
+
+            </div>
+</div>
 
 
   </div>
