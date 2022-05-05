@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f023e81-2957-45c4-950f-fa38e941ab83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/etat_article.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/etat_type_article_visites.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JujuDesign-v2.lo1" beforeDir="false" afterPath="$PROJECT_DIR$/JujuDesign-v2.lo1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JujuDesign-v2.loo" beforeDir="false" afterPath="$PROJECT_DIR$/JujuDesign-v2.loo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pycharm/connexion_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycharm/connexion_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pycharm/controllers/admin_article.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycharm/controllers/admin_article.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pycharm/controllers/admin_dataviz_article.py" beforeDir="false" afterPath="$PROJECT_DIR$/pycharm/controllers/admin_dataviz_article.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/etat_type_article_stock.html" beforeDir="false" afterPath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/etat_type_article_stock.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/panel-etat.html" beforeDir="false" afterPath="$PROJECT_DIR$/pycharm/templates/admin/dataviz/panel-etat.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,12 +25,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../s2_projet_biblio_flask_etu" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -39,6 +39,12 @@
       <option name="presentableId" value="Default" />
       <updated>1648447533303</updated>
       <workItem from="1648447534647" duration="17000" />
+      <workItem from="1648448201959" duration="1842000" />
+      <workItem from="1648557858515" duration="6071000" />
+      <workItem from="1648638220780" duration="1882000" />
+      <workItem from="1648811336593" duration="14000" />
+      <workItem from="1650640905739" duration="1048000" />
+      <workItem from="1651251255431" duration="599000" />
     </task>
     <servers />
   </component>

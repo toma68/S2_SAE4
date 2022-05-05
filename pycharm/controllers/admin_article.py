@@ -75,8 +75,7 @@ def show_article():
     articles_requete=articles
     articles_return=[]
     i=0
-    for key in articles_requete:
-
+    for key in articles_requete:    
         if (key['id_vetement'] not in articles_id):
             articles_id.append(key['id_vetement'])
             articles_return.append(key)

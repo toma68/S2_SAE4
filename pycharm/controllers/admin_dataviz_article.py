@@ -156,12 +156,6 @@ def show_dataviz_article(id):
         labels.append(key['date_historique'])
         values.append(key['count(*)'])
     types_articles_cout = []
-
-
-
-
-
-
     return render_template('admin/dataviz/etat_article.html',compte=compte,history=history,article=article, commande=commande, values=values,labels=labels)
 
 
